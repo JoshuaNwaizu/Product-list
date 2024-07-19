@@ -21,12 +21,17 @@ const cartReducer = (state = initialState, action: any) => {
     case 'minus/count':
       return { ...state, count: Math.max(state.count - 1, 0) };
     case 'add/cart':
+      const checkItem = state.cart.some(
+        (item) =>
+          item.name === action.payload.name &&
+          item.price === action.payload.price
+      );
+      if (checkItem) {
+        return state;
+      }
       return {
         ...state,
-        cart: [
-          ...state.cart,
-          { name: action.payload.name, price: action.payload.price },
-        ],
+        cart: [...state.cart, action.payload],
       };
 
     default:
@@ -36,6 +41,10 @@ const cartReducer = (state = initialState, action: any) => {
 
 export const addCart = (name: string, price: number) => {
   return { type: 'add/cart', payload: { name, price } };
+};
+
+export const addCount = () => {
+  return { type: 'add/count' };
 };
 
 export default cartReducer;

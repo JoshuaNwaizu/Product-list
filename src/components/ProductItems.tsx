@@ -1,6 +1,8 @@
 // import React from 'react'
-import { useSelector, UseSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import productJson from '../data.json';
+import { addCart, addCount } from '../features/productsSlice';
+import { useState } from 'react';
 
 export interface Image {
   thumbnail: string;
@@ -19,13 +21,29 @@ export interface FoodItem {
 const productList: FoodItem[] = productJson;
 
 const ProductItems = () => {
-  const productItem = useSelector((store) => store);
+  const [btnToggle, setBtnToggle] = useState<boolean>(false);
 
-  console.log(productItem);
-  // console.log(productItem.count);
+  const productItem = useSelector((store) => store);
+  const cartCount = productItem.count;
+  console.log(cartCount);
+
+  const dispatch = useDispatch();
+
+  const handleClick = (name: string, price: number) => {
+    dispatch(addCart(name, price));
+    setBtnToggle(true);
+  };
+  const handleAddCount = () => {
+    dispatch(addCount());
+  };
   return (
     <section>
-      <h1 className="text-[2.6rem] font-bold">Desserts</h1>
+      <h1
+        onClick={handleAddCount}
+        className="text-[2.6rem] font-bold"
+      >
+        Desserts
+      </h1>
       <article className="flex flex-col mt-8 gap-7">
         {productList.map((product) => (
           <div
@@ -39,12 +57,40 @@ const ProductItems = () => {
             />
             <span className="flex justify-center">
               {' '}
-              <span className="flex justify-center gap-3 bg-[#fff] w-[12rem] py-4 px-6 border-[#C2B2A3] border-2 rounded-full -translate-y-8">
-                <img
-                  src="/assets/images/icon-add-to-cart.svg"
-                  alt="cart logo"
-                />
-                <p className="font-semibold text-[14px]">Add to Cart</p>
+              <span
+                className={` ${
+                  btnToggle ? 'bg-[#C73B0F] px-4' : 'bg-[#fff]'
+                }  w-[11rem] py-4 px-6 border-[#C2B2A3] border-2 rounded-full -translate-y-8`}
+                onClick={() => handleClick(product.name, product.price)}
+              >
+                {!btnToggle ? (
+                  <span className="flex justify-center gap-3 ">
+                    <img
+                      src="/assets/images/icon-add-to-cart.svg"
+                      alt="cart logo"
+                    />
+                    <p className="font-semibold text-[14px]">
+                      {' '}
+                      <h4>Add to Cart</h4>{' '}
+                    </p>
+                  </span>
+                ) : (
+                  <span className="flex justify-between gap-3 items-center  ">
+                    <div className="flex items-center border-2 border-[#fff] py-[.53rem] px-[.3rem] rounded-full">
+                      <img
+                        src="/assets/images/icon-decrement-quantity.svg"
+                        alt="logo"
+                      />
+                    </div>
+                    <p className="font-semibold text-[14px] text-[#fff]">1</p>
+                    <div className="flex items-center  border-2 border-[#fff] py-[.3rem] px-[.3rem] rounded-full">
+                      <img
+                        src="/assets/images/icon-increment-quantity.svg"
+                        alt="logo"
+                      />
+                    </div>
+                  </span>
+                )}
               </span>
             </span>
 
