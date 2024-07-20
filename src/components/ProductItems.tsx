@@ -1,8 +1,13 @@
 // import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import productJson from '../data.json';
-import { addCart, addCount } from '../features/productsSlice';
-import { useState } from 'react';
+import {
+  addCart,
+  checkForActive,
+  decrementItemQuantity,
+  incrementItemQuantity,
+} from '../features/productsSlice';
+import { AppDispatch, RootState } from '../store';
 
 export interface Image {
   thumbnail: string;
@@ -21,92 +26,117 @@ export interface FoodItem {
 const productList: FoodItem[] = productJson;
 
 const ProductItems = () => {
-  const [btnToggle, setBtnToggle] = useState<boolean>(false);
-
-  const productItem = useSelector((store) => store);
-  const cartCount = productItem.count;
+  const productItem = useSelector((store: RootState) => store);
+  const cartCount = productItem.cart;
   console.log(cartCount);
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleClick = (name: string, price: number) => {
     dispatch(addCart(name, price));
-    setBtnToggle(true);
+    dispatch(checkForActive(name, price));
   };
-  const handleAddCount = () => {
-    dispatch(addCount());
+
+  const handleIncrement = (name: string, price: number) => {
+    dispatch(incrementItemQuantity(name, price));
   };
+  const handleDecrement = (name: string, price: number) => {
+    dispatch(decrementItemQuantity(name, price));
+  };
+
   return (
     <section>
-      <h1
-        onClick={handleAddCount}
-        className="text-[2.6rem] font-bold"
-      >
-        Desserts
-      </h1>
+      <h1 className="text-[2.6rem] font-bold">Desserts</h1>
       <article className="flex flex-col mt-8 gap-7">
-        {productList.map((product) => (
-          <div
-            className="flex flex-col"
-            key={product.name}
-          >
-            <img
-              src={product.image.mobile}
-              alt={product.name}
-              className="rounded-xl"
-            />
-            <span className="flex justify-center">
-              {' '}
-              <span
-                className={` ${
-                  btnToggle ? 'bg-[#C73B0F] px-4' : 'bg-[#fff]'
-                }  w-[11rem] py-4 px-6 border-[#C2B2A3] border-2 rounded-full -translate-y-8`}
-                onClick={() => handleClick(product.name, product.price)}
-              >
-                {!btnToggle ? (
-                  <span className="flex justify-center gap-3 ">
-                    <img
-                      src="/assets/images/icon-add-to-cart.svg"
-                      alt="cart logo"
-                    />
-                    <p className="font-semibold text-[14px]">
-                      {' '}
-                      <h4>Add to Cart</h4>{' '}
-                    </p>
-                  </span>
-                ) : (
-                  <span className="flex justify-between gap-3 items-center  ">
-                    <div className="flex items-center border-2 border-[#fff] py-[.53rem] px-[.3rem] rounded-full">
+        {productList.map((product) => {
+          const cartItem = cartCount.find(
+            (item) => item.name === product.name && item.price == product.price
+          );
+          const quantity = cartItem ? cartItem.quantity : 0;
+          const isActive = cartItem ? cartItem.isActive : false;
+          return (
+            <div
+              className="flex flex-col"
+              key={product.name}
+            >
+              <img
+                src={product.image.mobile}
+                alt={product.name}
+                className={`border-2 ${
+                  isActive ? 'border-[#C73B0F] ' : ''
+                } rounded-xl`}
+              />
+              <span className="flex justify-center">
+                {' '}
+                <span
+                  className={` ${
+                    isActive ? 'bg-[#C73B0F] px-4 ' : 'bg-[#fff]'
+                  }  w-[11rem] py-4 px-6 border-[#C2B2A3] border-2 rounded-full -translate-y-8`}
+                >
+                  {!isActive ? (
+                    <span
+                      className="flex justify-center gap-3 "
+                      onClick={() => handleClick(product.name, product.price)}
+                    >
                       <img
-                        src="/assets/images/icon-decrement-quantity.svg"
-                        alt="logo"
+                        src="/assets/images/icon-add-to-cart.svg"
+                        alt="cart logo"
                       />
-                    </div>
-                    <p className="font-semibold text-[14px] text-[#fff]">1</p>
-                    <div className="flex items-center  border-2 border-[#fff] py-[.3rem] px-[.3rem] rounded-full">
-                      <img
-                        src="/assets/images/icon-increment-quantity.svg"
-                        alt="logo"
-                      />
-                    </div>
-                  </span>
-                )}
+                      <h4 className="font-semibold text-[14px]">
+                        {' '}
+                        <span>Add to Cart</span>
+                      </h4>
+                    </span>
+                  ) : (
+                    <span className="flex items-center justify-between gap-3 -py-3">
+                      <div
+                        className="flex items-center justify-center border-2 border-[#fff] py-[.53rem] px-[.3rem] rounded-full"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDecrement(product.name, product.price);
+                        }}
+                      >
+                        <img
+                          src="/assets/images/icon-decrement-quantity.svg"
+                          alt="logo"
+                          className="w-[10px]"
+                        />
+                      </div>
+                      <p className="font-semibold text-[14px] text-[#fff]">
+                        {quantity}
+                      </p>
+                      <div
+                        className="flex items-center   py-[.3rem] px-[.3rem] "
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleIncrement(product.name, product.price);
+                        }}
+                      >
+                        <img
+                          src="/assets/images/icon-increment-quantity.svg"
+                          alt="logo"
+                          className="border-2 border-[#fff] h-[] p-1 rounded-full"
+                        />
+                      </div>
+                    </span>
+                  )}
+                </span>
               </span>
-            </span>
 
-            <p className="flex flex-col -mt-2">
-              <span className="text-[14px] text-[#87635A]">
-                {product.category}
-              </span>
-              <span className="text-[16px] font-semibold text-[#260F08]">
-                {product.name}
-              </span>
-              <span className="text-[16px] text-[#C73B0F] font-semibold">
-                ${product.price.toFixed(2)}
-              </span>
-            </p>
-          </div>
-        ))}
+              <p className="flex flex-col -mt-2">
+                <span className="text-[14px] text-[#87635A]">
+                  {product.category}
+                </span>
+                <span className="text-[16px] font-semibold text-[#260F08]">
+                  {product.name}
+                </span>
+                <span className="text-[16px] text-[#C73B0F] font-semibold">
+                  ${product.price.toFixed(2)}
+                </span>
+              </p>
+            </div>
+          );
+        })}
       </article>
     </section>
   );

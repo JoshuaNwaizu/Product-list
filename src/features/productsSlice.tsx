@@ -1,25 +1,29 @@
-interface CartItem {
+export interface CartItem {
   name: string;
   price: number;
+  isActive: boolean;
+  quantity: number;
 }
 
-interface State {
-  count: number;
+export interface State {
   cart: CartItem[];
+  activeItems: CartItem[];
 }
+
+export type Action =
+  | { type: 'add/cart'; payload: CartItem }
+  | { type: 'increment/item'; payload: { name: string; price: number } }
+  | { type: 'decrement/item'; payload: { name: string; price: number } }
+  | { type: 'active/item'; payload: { name: string; price: number } }
+  | { type: 'delete/item'; payload: { name: string; price: number } };
 
 const initialState: State = {
-  count: 0,
   cart: [],
+  activeItems: [],
 };
 
-const cartReducer = (state = initialState, action: any) => {
+const cartReducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
-    case 'add/count':
-      return { ...state, count: state.count + 1 };
-
-    case 'minus/count':
-      return { ...state, count: Math.max(state.count - 1, 0) };
     case 'add/cart':
       const checkItem = state.cart.some(
         (item) =>
@@ -31,7 +35,52 @@ const cartReducer = (state = initialState, action: any) => {
       }
       return {
         ...state,
-        cart: [...state.cart, action.payload],
+        cart: [...state.cart, { ...action.payload, isActive: false }],
+      };
+    case 'increment/item':
+      return {
+        ...state,
+        cart: state.cart.map((item) =>
+          item.name === action.payload.name &&
+          item.price === action.payload.price
+            ? {
+                ...item,
+                quantity: item.quantity + 1,
+              }
+            : item
+        ),
+      };
+    case 'decrement/item':
+      return {
+        ...state,
+        cart: state.cart.map((item) =>
+          item.name === action.payload.name &&
+          item.price === action.payload.price
+            ? {
+                ...item,
+                quantity: item.quantity - 1,
+              }
+            : item
+        ),
+      };
+    case 'active/item':
+      return {
+        ...state,
+        cart: state.cart.map((item) =>
+          item.name === action.payload.name &&
+          item.price === action.payload.price
+            ? { ...item, isActive: !item.isActive }
+            : item
+        ),
+      };
+    case 'delete/item':
+      return {
+        ...state,
+        cart: state.cart.filter(
+          (item) =>
+            item.name !== action.payload.name ||
+            item.price !== action.payload.price
+        ),
       };
 
     default:
@@ -39,12 +88,30 @@ const cartReducer = (state = initialState, action: any) => {
   }
 };
 
-export const addCart = (name: string, price: number) => {
-  return { type: 'add/cart', payload: { name, price } };
+export const addCart = (name: string, price: number): Action => {
+  return {
+    type: 'add/cart',
+    payload: { name, price, quantity: 1, isActive: false },
+  };
 };
 
-export const addCount = () => {
-  return { type: 'add/count' };
-};
+export const incrementItemQuantity = (name: string, price: number): Action => ({
+  type: 'increment/item',
+  payload: { name, price },
+});
+
+export const decrementItemQuantity = (name: string, price: number): Action => ({
+  type: 'decrement/item',
+  payload: { name, price },
+});
+
+export const checkForActive = (name: string, price: number): Action => ({
+  type: 'active/item',
+  payload: { name, price },
+});
+export const deleteItem = (name: string, price: number): Action => ({
+  type: 'delete/item',
+  payload: { name, price },
+});
 
 export default cartReducer;
