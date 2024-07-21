@@ -21,9 +21,10 @@ export interface FoodItem {
   name: string;
   category: string;
   price: number;
+  //  image: string;
 }
 
-const productList: FoodItem[] = productJson;
+export const productList: FoodItem[] = productJson;
 
 const ProductItems = () => {
   const productItem = useSelector((store: RootState) => store);
