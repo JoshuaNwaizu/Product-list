@@ -3,23 +3,35 @@ export interface CartItem {
   price: number;
   isActive: boolean;
   quantity: number;
+  image?: {
+    thumbnail: string;
+    desktop: string;
+    mobile: string;
+    tablet: string;
+  };
 }
 
 export interface State {
   cart: CartItem[];
   activeItems: CartItem[];
+  openOrder: boolean;
 }
-
+interface OpenAction {
+  type: 'open/item';
+}
 export type Action =
   | { type: 'add/cart'; payload: CartItem }
   | { type: 'increment/item'; payload: { name: string; price: number } }
   | { type: 'decrement/item'; payload: { name: string; price: number } }
   | { type: 'active/item'; payload: { name: string; price: number } }
+  | { type: 'open/item'; payload?: any }
+  | { type: 'reset/item'; payload?: any }
   | { type: 'delete/item'; payload: { name: string; price: number } };
 
 const initialState: State = {
   cart: [],
   activeItems: [],
+  openOrder: false,
 };
 
 const cartReducer = (state: State = initialState, action: Action): State => {
@@ -83,6 +95,11 @@ const cartReducer = (state: State = initialState, action: Action): State => {
         ),
       };
 
+    case 'open/item':
+      return { ...state, openOrder: !state.openOrder };
+    case 'reset/item':
+      return { ...state, cart: [], activeItems: [], openOrder: false };
+
     default:
       return state;
   }
@@ -113,5 +130,11 @@ export const deleteItem = (name: string, price: number): Action => ({
   type: 'delete/item',
   payload: { name, price },
 });
+
+export const openOrder = (): OpenAction => {
+  return {
+    type: 'open/item',
+  };
+};
 
 export default cartReducer;

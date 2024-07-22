@@ -1,9 +1,13 @@
 // import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { CartItem, deleteItem } from '../features/productsSlice';
+import { CartItem, deleteItem, openOrder } from '../features/productsSlice';
 import { AppDispatch, RootState } from '../store';
+// import { useState } from 'react';
+import Button from './Button';
 
 const Cart = () => {
+  // const [openOrder, setOpenOrder] = useState<boolean>(false);
+
   const dispatch = useDispatch<AppDispatch>();
 
   const cartItem = useSelector((store: RootState) => store.cart);
@@ -13,6 +17,11 @@ const Cart = () => {
   const cartSummary = cartItem.reduce((total: number, item: CartItem) => {
     return total + item.quantity * item.price;
   }, 0);
+
+  const handleOpenNav = () => {
+    dispatch(openOrder());
+  };
+
   console.log(cartItem);
   console.log(cartTotal);
   console.log(cartSummary);
@@ -82,9 +91,12 @@ const Cart = () => {
               </p>
             </span>
           </div>
-          <button className="bg-[#C73B0F] p-[1rem] font-semibold text-[16px] text-[#fff] rounded-xl">
-            Confirm Order
-          </button>
+
+          <Button
+            text=" Confirm Order"
+            className="bg-[#C73B0F] p-[1rem] font-semibold text-[16px] text-[#fff] rounded-xl"
+            onClick={handleOpenNav}
+          />
         </section>
       )}
     </>

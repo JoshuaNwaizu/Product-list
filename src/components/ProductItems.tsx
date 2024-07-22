@@ -8,6 +8,7 @@ import {
   incrementItemQuantity,
 } from '../features/productsSlice';
 import { AppDispatch, RootState } from '../store';
+// import { useState } from 'react';
 
 export interface Image {
   thumbnail: string;
