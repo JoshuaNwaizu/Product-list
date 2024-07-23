@@ -74,7 +74,7 @@ const cartReducer = (state: State = initialState, action: Action): State => {
           item.price === action.payload.price
             ? {
                 ...item,
-                quantity: item.quantity - 1,
+                quantity: Math.max(item.quantity - 1, 1),
               }
             : item
         ),
