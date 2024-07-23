@@ -1,16 +1,17 @@
 // import React from 'react';
 
-import { useSelector } from 'react-redux';
-import { RootState } from '../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../store';
 import { productList } from './ProductItems';
 import Button from './Button';
-import { CartItem } from '../features/productsSlice';
+import { CartItem, reset } from '../features/productsSlice';
 
 const orderList = productList;
 
 const OrderConfirmed: React.FC = () => {
   const cartItem = useSelector((store: RootState) => store.cart);
   const isOrderOpen = useSelector((store: RootState) => store.openOrder);
+  const dispatch = useDispatch<AppDispatch>();
 
   const getOrderedList = cartItem.map((cart) => {
     const productListItem = orderList.find((item) => item.name === cart.name);
@@ -22,6 +23,10 @@ const OrderConfirmed: React.FC = () => {
     },
     0
   );
+
+  const handleReset = () => {
+    dispatch(reset());
+  };
   console.log(getOrderedList);
   console.log(orderSummary);
 
@@ -104,6 +109,7 @@ const OrderConfirmed: React.FC = () => {
         <Button
           text="Start New Order"
           className="bg-[#C73B0F] p-[1rem] font-semibold text-[16px] text-[#fff] rounded-[2rem] text-center w-full"
+          onClick={handleReset}
         />
       </section>
     </section>

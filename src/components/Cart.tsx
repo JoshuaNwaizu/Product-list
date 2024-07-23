@@ -6,11 +6,10 @@ import { AppDispatch, RootState } from '../store';
 import Button from './Button';
 
 const Cart = () => {
-  // const [openOrder, setOpenOrder] = useState<boolean>(false);
-
   const dispatch = useDispatch<AppDispatch>();
 
   const cartItem = useSelector((store: RootState) => store.cart);
+
   const cartTotal = cartItem.reduce((total, item) => {
     return total + item.quantity;
   }, 0);

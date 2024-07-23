@@ -19,6 +19,10 @@ export interface State {
 interface OpenAction {
   type: 'open/item';
 }
+interface OpenActionReset {
+  type: 'reset/item';
+}
+
 export type Action =
   | { type: 'add/cart'; payload: CartItem }
   | { type: 'increment/item'; payload: { name: string; price: number } }
@@ -134,6 +138,12 @@ export const deleteItem = (name: string, price: number): Action => ({
 export const openOrder = (): OpenAction => {
   return {
     type: 'open/item',
+  };
+};
+
+export const reset = (): OpenActionReset => {
+  return {
+    type: 'reset/item',
   };
 };
 

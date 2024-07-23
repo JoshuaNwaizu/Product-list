@@ -1,4 +1,3 @@
-// import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import productJson from '../data.json';
 import {
@@ -8,7 +7,6 @@ import {
   incrementItemQuantity,
 } from '../features/productsSlice';
 import { AppDispatch, RootState } from '../store';
-// import { useState } from 'react';
 
 export interface Image {
   thumbnail: string;
@@ -22,14 +20,12 @@ export interface FoodItem {
   name: string;
   category: string;
   price: number;
-  //  image: string;
 }
 
 export const productList: FoodItem[] = productJson;
 
 const ProductItems = () => {
-  const productItem = useSelector((store: RootState) => store);
-  const cartCount = productItem.cart;
+  const cartCount = useSelector((store: RootState) => store.cart);
   console.log(cartCount);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -66,14 +62,14 @@ const ProductItems = () => {
                 alt={product.name}
                 className={`border-2 ${
                   isActive ? 'border-[#C73B0F] ' : ''
-                } rounded-xl`}
+                } rounded-xl transition-all duration-200`}
               />
               <span className="flex justify-center">
                 {' '}
                 <span
                   className={` ${
                     isActive ? 'bg-[#C73B0F] px-4 ' : 'bg-[#fff]'
-                  }  w-[11rem] py-4 px-6 border-[#C2B2A3] border-2 rounded-full -translate-y-8`}
+                  }  w-[11rem] py-4 px-6 border-[#C2B2A3] border-2 rounded-full -translate-y-8 transition-all duration-200`}
                 >
                   {!isActive ? (
                     <span
