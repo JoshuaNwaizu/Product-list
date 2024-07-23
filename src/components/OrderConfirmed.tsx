@@ -61,7 +61,7 @@ const OrderConfirmed: React.FC = () => {
           </span>
         </div>
 
-        <div className="flex flex-col gap-5 px-5 py-8 bg-[#FCF8F6] max-h-[400px] overflow-y-scroll rounded-2xl">
+        <div className="flex flex-col gap-5 px-5 py-8 bg-[#FCF8F6] max-h-[320px] overflow-y-scroll rounded-2xl">
           {getOrderedList.map((item, i) => (
             <>
               <article
