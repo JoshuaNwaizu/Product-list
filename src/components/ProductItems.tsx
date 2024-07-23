@@ -2,11 +2,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import productJson from '../data.json';
 import {
   addCart,
-  checkForActive,
-  decrementItemQuantity,
-  incrementItemQuantity,
+  activeItem,
+  decrementItem,
+  incrementItem,
 } from '../features/productsSlice';
 import { AppDispatch, RootState } from '../store';
+import React from 'react';
 
 export interface Image {
   thumbnail: string;
@@ -24,22 +25,22 @@ export interface FoodItem {
 
 export const productList: FoodItem[] = productJson;
 
-const ProductItems = () => {
+const ProductItems: React.FC = () => {
   const cartCount = useSelector((store: RootState) => store.cart);
   console.log(cartCount);
 
   const dispatch = useDispatch<AppDispatch>();
 
   const handleClick = (name: string, price: number) => {
-    dispatch(addCart(name, price));
-    dispatch(checkForActive(name, price));
+    dispatch(addCart({ name, price }));
+    dispatch(activeItem({ name, price }));
   };
 
   const handleIncrement = (name: string, price: number) => {
-    dispatch(incrementItemQuantity(name, price));
+    dispatch(incrementItem({ name, price }));
   };
   const handleDecrement = (name: string, price: number) => {
-    dispatch(decrementItemQuantity(name, price));
+    dispatch(decrementItem({ name, price }));
   };
 
   return (

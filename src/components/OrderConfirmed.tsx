@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store';
 import { productList } from './ProductItems';
 import Button from './Button';
-import { CartItem, reset } from '../features/productsSlice';
+import { CartItem, resetItem } from '../features/productsSlice';
 
 const orderList = productList;
 
@@ -25,7 +25,7 @@ const OrderConfirmed: React.FC = () => {
   );
 
   const handleReset = () => {
-    dispatch(reset());
+    dispatch(resetItem());
   };
   console.log(getOrderedList);
   console.log(orderSummary);
@@ -61,7 +61,7 @@ const OrderConfirmed: React.FC = () => {
           </span>
         </div>
 
-        <div className="flex flex-col gap-5 px-5 py-8 bg-[#FCF8F6] rounded-2xl">
+        <div className="flex flex-col gap-5 px-5 py-8 bg-[#FCF8F6] max-h-[400px] overflow-y-scroll rounded-2xl">
           {getOrderedList.map((item, i) => (
             <>
               <article

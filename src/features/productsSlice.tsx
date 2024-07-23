@@ -1,7 +1,9 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
 export interface CartItem {
   name: string;
   price: number;
-  isActive: boolean;
+  isActive?: boolean;
   quantity: number;
   image?: {
     thumbnail: string;
@@ -16,11 +18,10 @@ export interface State {
   activeItems: CartItem[];
   openOrder: boolean;
 }
-interface OpenAction {
-  type: 'open/item';
-}
-interface OpenActionReset {
-  type: 'reset/item';
+
+interface CartActions {
+  name: string;
+  price: number;
 }
 
 export type Action =
@@ -38,113 +39,86 @@ const initialState: State = {
   openOrder: false,
 };
 
-const cartReducer = (state: State = initialState, action: Action): State => {
-  switch (action.type) {
-    case 'add/cart':
+const productSlice = createSlice({
+  name: 'product',
+  initialState,
+  reducers: {
+    addCart(state, action: PayloadAction<{ name: string; price: number }>) {
       const checkItem = state.cart.some(
         (item) =>
           item.name === action.payload.name &&
           item.price === action.payload.price
       );
-      if (checkItem) {
-        return state;
-      }
-      return {
-        ...state,
-        cart: [...state.cart, { ...action.payload, isActive: false }],
-      };
-    case 'increment/item':
-      return {
-        ...state,
-        cart: state.cart.map((item) =>
-          item.name === action.payload.name &&
-          item.price === action.payload.price
-            ? {
-                ...item,
-                quantity: item.quantity + 1,
-              }
-            : item
-        ),
-      };
-    case 'decrement/item':
-      return {
-        ...state,
-        cart: state.cart.map((item) =>
-          item.name === action.payload.name &&
-          item.price === action.payload.price
-            ? {
-                ...item,
-                quantity: Math.max(item.quantity - 1, 1),
-              }
-            : item
-        ),
-      };
-    case 'active/item':
-      return {
-        ...state,
-        cart: state.cart.map((item) =>
-          item.name === action.payload.name &&
-          item.price === action.payload.price
-            ? { ...item, isActive: !item.isActive }
-            : item
-        ),
-      };
-    case 'delete/item':
-      return {
-        ...state,
-        cart: state.cart.filter(
-          (item) =>
-            item.name !== action.payload.name ||
-            item.price !== action.payload.price
-        ),
-      };
+      if (checkItem) return;
 
-    case 'open/item':
-      return { ...state, openOrder: !state.openOrder };
-    case 'reset/item':
-      return { ...state, cart: [], activeItems: [], openOrder: false };
+      state.cart.push({
+        ...action.payload,
+        isActive: false,
+        quantity: 1,
+        image: {
+          thumbnail: '',
+          desktop: '',
+          mobile: '',
+          tablet: '',
+        },
+      });
+    },
 
-    default:
-      return state;
-  }
-};
-
-export const addCart = (name: string, price: number): Action => {
-  return {
-    type: 'add/cart',
-    payload: { name, price, quantity: 1, isActive: false },
-  };
-};
-
-export const incrementItemQuantity = (name: string, price: number): Action => ({
-  type: 'increment/item',
-  payload: { name, price },
+    incrementItem(state, action: PayloadAction<CartActions>) {
+      state.cart = state.cart.map((item) =>
+        item.name === action.payload.name && item.price === action.payload.price
+          ? {
+              ...item,
+              quantity: item.quantity + 1,
+            }
+          : item
+      );
+    },
+    decrementItem(state, action: PayloadAction<CartActions>) {
+      state.cart = state.cart.map((item) =>
+        item.name === action.payload.name && item.price === action.payload.price
+          ? {
+              ...item,
+              quantity: Math.max(item.quantity - 1, 1),
+            }
+          : item
+      );
+    },
+    activeItem(state, action: PayloadAction<CartActions>) {
+      state.cart = state.cart.map((item) =>
+        item.name === action.payload.name && item.price === action.payload.price
+          ? { ...item, isActive: !item.isActive }
+          : item
+      );
+    },
+    deleteItem(state, action: PayloadAction<CartActions>) {
+      state.cart = state.cart.filter(
+        (item) =>
+          item.name !== action.payload.name ||
+          item.price !== action.payload.price
+      );
+    },
+    openOrderItem(state) {
+      state.openOrder = !state.openOrder;
+    },
+    resetItem(state) {
+      state.cart = [];
+      state.activeItems = [];
+      state.openOrder = false;
+    },
+  },
 });
 
-export const decrementItemQuantity = (name: string, price: number): Action => ({
-  type: 'decrement/item',
-  payload: { name, price },
-});
+console.log(productSlice);
 
-export const checkForActive = (name: string, price: number): Action => ({
-  type: 'active/item',
-  payload: { name, price },
-});
-export const deleteItem = (name: string, price: number): Action => ({
-  type: 'delete/item',
-  payload: { name, price },
-});
+export const {
+  addCart,
+  incrementItem,
+  decrementItem,
+  activeItem,
+  deleteItem,
+  openOrderItem,
+  resetItem,
+} = productSlice.actions;
 
-export const openOrder = (): OpenAction => {
-  return {
-    type: 'open/item',
-  };
-};
-
-export const reset = (): OpenActionReset => {
-  return {
-    type: 'reset/item',
-  };
-};
-
-export default cartReducer;
+export default productSlice.reducer;

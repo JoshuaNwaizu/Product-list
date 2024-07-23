@@ -1,7 +1,10 @@
-import { createStore } from 'redux';
-import cartReducer from './features/productsSlice';
+// import cartReducer from './features/productsSlice';
+import productsSlice from './features/productsSlice';
+import { configureStore } from '@reduxjs/toolkit';
 
-const store = createStore(cartReducer);
+const store = configureStore({
+  reducer: productsSlice,
+});
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
 
