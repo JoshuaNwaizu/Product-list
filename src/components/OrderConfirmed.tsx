@@ -31,7 +31,7 @@ const OrderConfirmed: React.FC = () => {
   console.log(orderSummary);
 
   return (
-    <section>
+    <section className="">
       <div
         className={` ${
           isOrderOpen ? 'bg-[#1e1d1dac] fixed left-0 top-0 h-svh w-svw' : ''
@@ -39,8 +39,10 @@ const OrderConfirmed: React.FC = () => {
       ></div>
       <section
         className={`fixed  ${
-          isOrderOpen ? 'bottom-0' : 'bottom-[-1000%]'
-        } flex left-0 right-0 flex-col gap-5 px-4 py-6 bg-white rounded-t-[2rem] text-[#260F08] transition-all duration-300
+          isOrderOpen
+            ? 'bottom-0 min-[820px]:bottom-[12rem]  min-[1100px]:bottom-[5rem]  '
+            : 'bottom-[-1000%]'
+        } flex left-0 right-0 min-[820px]:left-[6rem] min-[820px]:right-[6rem] min-[1100px]:left-[25rem] min-[1100px]:right-[25rem]  min-[1320px]:right-[34rem] min-[1320px]:left-[34rem] min-[820px]:right-[6rem] flex-col gap-5 px-4 min-[820px]:px-9 py-6 bg-white rounded-t-[2rem] min-[820px]:rounded-[2rem] text-[#260F08] transition-all  max-[320px]:h-svh h-[80svh] min-[820px]:h-[700px] min-[1100px]:h-[600px] duration-300 max-[320px]:rounded-none
       `}
       >
         <div>
@@ -50,9 +52,8 @@ const OrderConfirmed: React.FC = () => {
             className="h-[48px] mb-3"
           />
           <span className="flex flex-col gap-3">
-            <h2 className="text-[#260F08] text-[40px] font-bold leading-[45px]">
-              Order
-              <br />
+            <h2 className="text-[#260F08] text-[40px] font-bold leading-[45px] max-[320px]:text-[33px]">
+              Order <br className=" max-[320px]:hidden min-[820px]:hidden" />
               Confirmed
             </h2>
             <p className="text-[16px] text-[#87635A]">
@@ -61,7 +62,7 @@ const OrderConfirmed: React.FC = () => {
           </span>
         </div>
 
-        <div className="flex flex-col gap-5 px-5 py-8 bg-[#FCF8F6] max-h-[320px] overflow-y-scroll rounded-2xl">
+        <div className="flex flex-col gap-5 px-5 py-8  bg-[#FCF8F6] max-h-[320px] min-[820px]:max-h-[360px] h-[300px] min-[820px]:h-[360px] overflow-y-scroll rounded-2xl">
           {getOrderedList.map((item, i) => (
             <>
               <article
@@ -80,7 +81,7 @@ const OrderConfirmed: React.FC = () => {
                     <p className="text-[14px] font-semibold text-[#260F08]">
                       {item.name.length < 17
                         ? item.name
-                        : `${item.name.slice(0, 17)}...`}
+                        : `${item.name.slice(0, 19)}...`}
                     </p>
                     <span className="flex items-center gap-3 text-[14px]">
                       <p className=" text-[#C73B0F] font-semibold">

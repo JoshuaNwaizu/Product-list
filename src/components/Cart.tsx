@@ -29,8 +29,8 @@ const Cart = () => {
     dispatch(deleteItem({ name, price }));
   };
   return (
-    <>
-      <section className="flex flex-col gap-6 bg-[#fff] py-8 px-5 rounded-2xl">
+    <div className="flex flex-col">
+      <section className="flex flex-col gap-6 bg-[#fff] py-8 px-5  rounded-2xl  min-[1100px]:w-[350px]  min-[1100px]:mt-[1.5rem] ">
         <h1 className="text-[#C73B0F] text-[1.5rem] font-bold">
           Your Cart ({cartTotal})
         </h1>
@@ -108,12 +108,12 @@ const Cart = () => {
         {cartItem.length > 0 && (
           <Button
             text=" Confirm Order"
-            className="bg-[#C73B0F] p-[1rem] font-semibold text-[16px] text-[#fff] rounded-xl"
+            className="bg-[#C73B0F] p-[1rem] font-semibold text-[16px] text-[#fff] rounded-[2rem]"
             onClick={handleOpenNav}
           />
         )}
       </section>
-    </>
+    </div>
   );
 };
 

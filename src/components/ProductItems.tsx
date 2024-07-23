@@ -7,7 +7,7 @@ import {
   incrementItem,
 } from '../features/productsSlice';
 import { AppDispatch, RootState } from '../store';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 export interface Image {
   thumbnail: string;
@@ -26,6 +26,7 @@ export interface FoodItem {
 export const productList: FoodItem[] = productJson;
 
 const ProductItems: React.FC = () => {
+  const [imgSrc, setImgSrc] = useState(window.innerWidth > 600);
   const cartCount = useSelector((store: RootState) => store.cart);
   console.log(cartCount);
 
@@ -43,10 +44,16 @@ const ProductItems: React.FC = () => {
     dispatch(decrementItem({ name, price }));
   };
 
+  useEffect(() => {
+    const handleResizeImg = () => {
+      setImgSrc(window.innerWidth > 600);
+    };
+    window.addEventListener('resize', handleResizeImg);
+  }, []);
   return (
     <section>
       <h1 className="text-[2.6rem] font-bold">Desserts</h1>
-      <article className="flex flex-col mt-8 gap-7">
+      <article className="flex flex-col mt-8 gap-7 min-[600px]:flex-row min-[600px]:justify-center max-w-[900px] flex-wrap ">
         {productList.map((product) => {
           const cartItem = cartCount.find(
             (item) => item.name === product.name && item.price == product.price
@@ -55,15 +62,15 @@ const ProductItems: React.FC = () => {
           const isActive = cartItem ? cartItem.isActive : false;
           return (
             <div
-              className="flex flex-col"
+              className="flex flex-col min-[600px]:w-[200px] min-[820px]:w-[230px] "
               key={product.name}
             >
               <img
-                src={product.image.mobile}
+                src={imgSrc ? product.image.tablet : product.image.mobile}
                 alt={product.name}
                 className={`border-2 ${
                   isActive ? 'border-[#C73B0F] ' : ''
-                } rounded-xl transition-all duration-200`}
+                } rounded-xl transition-all duration-200 `}
               />
               <span className="flex justify-center">
                 {' '}
@@ -74,7 +81,7 @@ const ProductItems: React.FC = () => {
                 >
                   {!isActive ? (
                     <span
-                      className="flex justify-center gap-3 "
+                      className="flex justify-center gap-3 cursor-pointer"
                       onClick={() => handleClick(product.name, product.price)}
                     >
                       <img
@@ -89,7 +96,7 @@ const ProductItems: React.FC = () => {
                   ) : (
                     <span className="flex items-center justify-between gap-3 -py-3">
                       <div
-                        className="flex items-center justify-center border-2 border-[#fff] py-[.53rem] px-[.3rem] rounded-full"
+                        className="flex items-center justify-center border-2 border-[#fff] py-[.53rem] px-[.3rem] rounded-full cursor-pointer"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleDecrement(product.name, product.price);
@@ -105,7 +112,7 @@ const ProductItems: React.FC = () => {
                         {quantity}
                       </p>
                       <div
-                        className="flex items-center   py-[.3rem] px-[.3rem] "
+                        className="flex items-center   py-[.3rem] px-[.3rem] cursor-pointer "
                         onClick={(e) => {
                           e.stopPropagation();
                           handleIncrement(product.name, product.price);
