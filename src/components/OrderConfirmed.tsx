@@ -39,7 +39,7 @@ const OrderConfirmed: React.FC = () => {
       ></div>
       <section
         className={`fixed  ${
-          isOrderOpen ? 'bottom-0' : 'bottom-[-100%]'
+          isOrderOpen ? 'bottom-0' : 'bottom-[-1000%]'
         } flex left-0 right-0 flex-col gap-5 px-4 py-6 bg-white rounded-t-[2rem] text-[#260F08] transition-all duration-300
       `}
       >
