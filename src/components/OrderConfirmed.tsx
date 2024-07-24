@@ -42,7 +42,7 @@ const OrderConfirmed: React.FC = () => {
           isOrderOpen
             ? 'bottom-0 min-[820px]:bottom-[12rem]  min-[1100px]:bottom-[5rem]  '
             : 'bottom-[-1000%]'
-        } flex left-0 right-0 min-[820px]:left-[6rem] min-[820px]:right-[6rem] min-[1100px]:left-[25rem] min-[1100px]:right-[25rem]  min-[1320px]:right-[34rem] min-[1320px]:left-[34rem] min-[820px]:right-[6rem] flex-col gap-5 px-4 min-[820px]:px-9 py-6 bg-white rounded-t-[2rem] min-[820px]:rounded-[2rem] text-[#260F08] transition-all  max-[320px]:h-svh h-[80svh] min-[820px]:h-[700px] min-[1100px]:h-[600px] duration-300 max-[320px]:rounded-none
+        } flex left-0 right-0 min-[820px]:left-[6rem] min-[820px]:right-[6rem] min-[1100px]:left-[25rem] min-[1100px]:right-[25rem]  min-[1320px]:right-[34rem] min-[1320px]:left-[34rem] min-[820px]:right-[6rem] flex-col gap-5 px-4 min-[820px]:px-9 py-6 bg-white rounded-t-[2rem] min-[820px]:rounded-[2rem] text-[#260F08] transition-all  max-[320px]:h-svh h-[90svh] min-[820px]:h-[700px] min-[1100px]:h-[600px] duration-300 max-[320px]:rounded-none
       `}
       >
         <div>
