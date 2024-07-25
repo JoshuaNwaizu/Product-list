@@ -91,10 +91,12 @@ const ProductItems: React.FC = () => {
                   className={` ${
                     isActive ? 'bg-[#C73B0F] px-4 ' : 'bg-[#fff]'
                   }  w-[11rem] py-4 px-5 hover:border-[#C73B0F] border-[#C2B2A3] border-2 cursor-pointer rounded-full -translate-y-8 transition-all duration-200`}
-                  onClick={() => handleClick(product.name, product.price)}
                 >
                   {!isActive ? (
-                    <span className="flex justify-center gap-3 ">
+                    <span
+                      className="flex justify-center gap-3 "
+                      onClick={() => handleClick(product.name, product.price)}
+                    >
                       <img
                         src="/assets/images/icon-add-to-cart.svg"
                         alt="cart logo"
@@ -113,11 +115,6 @@ const ProductItems: React.FC = () => {
                           handleDecrement(product.name, product.price);
                         }}
                       >
-                        {/* <img
-                          src="/assets/images/icon-decrement-quantity.svg"
-                          alt="logo"
-                          className="w-[10px]"
-                        /> */}
                         <p className="flex items-center justify-center border-2 border-[#fff]  px-[.5rem] text-[16px] text-white rounded-full">
                           -
                         </p>
@@ -132,11 +129,6 @@ const ProductItems: React.FC = () => {
                           handleIncrement(product.name, product.price);
                         }}
                       >
-                        {/* <img
-                          src="/assets/images/icon-increment-quantity.svg"
-                          alt="logo"
-                          className="border-2 border-[#fff] h-[] p-1 rounded-full"
-                        /> */}
                         <p className="border-2 border-[#fff] px-[.41rem] flex items-center justify-center rounded-full text-white">
                           +
                         </p>
