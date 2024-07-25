@@ -107,7 +107,7 @@ const ProductItems: React.FC = () => {
                   ) : (
                     <span className="flex items-center justify-between gap-3 font-semibold -my-1 min-[800px]:-mx-1">
                       <div
-                        className="flex items-center justify-center border-2 border-[#fff]  px-[.5rem] text-[16px] text-white rounded-full cursor-pointer"
+                        className="flex items-center justify-center  cursor-pointer"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleDecrement(product.name, product.price);
@@ -118,7 +118,9 @@ const ProductItems: React.FC = () => {
                           alt="logo"
                           className="w-[10px]"
                         /> */}
-                        <p>-</p>
+                        <p className="flex items-center justify-center border-2 border-[#fff]  px-[.5rem] text-[16px] text-white rounded-full">
+                          -
+                        </p>
                       </div>
                       <p className="font-semibold text-[14px] text-[#fff]">
                         {quantity}
@@ -135,7 +137,7 @@ const ProductItems: React.FC = () => {
                           alt="logo"
                           className="border-2 border-[#fff] h-[] p-1 rounded-full"
                         /> */}
-                        <p className="border-2 border-[#fff] px-[.4rem] flex items-center justify-center rounded-full text-white">
+                        <p className="border-2 border-[#fff] px-[.41rem] flex items-center justify-center rounded-full text-white">
                           +
                         </p>
                       </div>
