@@ -1,10 +1,8 @@
-// import React from 'react';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store';
 import { productList } from './ProductItems';
 import Button from './Button';
-import { CartItem, resetItem } from '../features/productsSlice';
+import { CartItem, openOrderItem, resetItem } from '../features/productsSlice';
 
 const orderList = productList;
 
@@ -27,8 +25,10 @@ const OrderConfirmed: React.FC = () => {
   const handleReset = () => {
     dispatch(resetItem());
   };
-  console.log(getOrderedList);
-  console.log(orderSummary);
+
+  const handleOpenNav = () => {
+    dispatch(openOrderItem());
+  };
 
   return (
     <section className="">
@@ -36,13 +36,14 @@ const OrderConfirmed: React.FC = () => {
         className={` ${
           isOrderOpen ? 'bg-[#1e1d1dac] fixed left-0 top-0 h-svh w-svw' : ''
         }`}
+        onClick={handleOpenNav}
       ></div>
       <section
         className={`fixed  ${
           isOrderOpen
-            ? 'bottom-0 min-[820px]:bottom-[12rem]  min-[1100px]:bottom-[5rem]  '
+            ? 'bottom-0 min-[820px]:bottom-[12rem]  min-[1100px]:bottom-[1rem] min-[1320px]:bottom-[6rem] min-[1280px]:bottom-[6rem] '
             : 'bottom-[-1000%]'
-        } flex left-0 right-0 min-[820px]:left-[6rem] min-[820px]:right-[6rem] min-[1100px]:left-[25rem] min-[1100px]:right-[25rem]  min-[1320px]:right-[34rem] min-[1320px]:left-[34rem] min-[820px]:right-[6rem] flex-col gap-5 px-4 min-[820px]:px-9 py-6 bg-white rounded-t-[2rem] min-[820px]:rounded-[2rem] text-[#260F08] transition-all  max-[320px]:h-svh h-[90svh] min-[820px]:h-[700px] min-[1100px]:h-[600px] duration-300 max-[320px]:rounded-none
+        } flex left-0 right-0 min-[820px]:left-[6rem] min-[1100px]:left-[25rem] min-[1100px]:right-[25rem]   min-[1320px]:right-[27rem] min-[1320px]:left-[27rem] min-[820px]:right-[6rem] flex-col gap-5 px-4 min-[820px]:px-9 py-6 bg-white rounded-t-[2rem] min-[820px]:rounded-[2rem] text-[#260F08] transition-all  max-[320px]:h-svh h-[80svh] min-[820px]:h-[700px] min-[1100px]:h-[600px] min-[1280px]:h-[500px] duration-300 max-[320px]:rounded-none
       `}
       >
         <div>
@@ -62,7 +63,7 @@ const OrderConfirmed: React.FC = () => {
           </span>
         </div>
 
-        <div className="flex flex-col gap-5 px-5 py-8  bg-[#FCF8F6] max-h-[320px] min-[820px]:max-h-[360px] h-[300px] min-[820px]:h-[360px] overflow-y-scroll rounded-2xl">
+        <div className="flex flex-col gap-5 px-5 max-[320px]:px-3 py-8  bg-[#FCF8F6] max-h-[320px] min-[820px]:max-h-[360px] h-[350px] min-[820px]:h-[360px] overflow-y-scroll rounded-2xl">
           {getOrderedList.map((item, i) => (
             <>
               <article
@@ -109,7 +110,7 @@ const OrderConfirmed: React.FC = () => {
         </div>
         <Button
           text="Start New Order"
-          className="bg-[#C73B0F] p-[1rem] font-semibold text-[16px] text-[#fff] rounded-[2rem] text-center w-full"
+          className="bg-[#C73B0F] p-[1rem] font-semibold text-[16px] text-[#fff] rounded-[2rem] text-center w-full hover:bg-[#571e0d] transition-all duration-200"
           onClick={handleReset}
         />
       </section>

@@ -26,9 +26,14 @@ export interface FoodItem {
 export const productList: FoodItem[] = productJson;
 
 const ProductItems: React.FC = () => {
-  const [imgSrc, setImgSrc] = useState(window.innerWidth > 600);
+  const [imgSrc, setImgSrc] = useState<'desktop' | 'tablet' | 'mobile'>(
+    window.innerWidth > 1000
+      ? 'desktop'
+      : window.innerWidth > 600
+      ? 'tablet'
+      : 'mobile'
+  );
   const cartCount = useSelector((store: RootState) => store.cart);
-  console.log(cartCount);
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -46,13 +51,22 @@ const ProductItems: React.FC = () => {
 
   useEffect(() => {
     const handleResizeImg = () => {
-      setImgSrc(window.innerWidth > 600);
+      if (window.innerWidth > 1100) {
+        setImgSrc('desktop');
+      } else if (window.innerWidth > 600) {
+        setImgSrc('tablet');
+      } else {
+        setImgSrc('mobile');
+      }
     };
     window.addEventListener('resize', handleResizeImg);
   }, []);
+
   return (
     <section>
-      <h1 className="text-[2.6rem] font-bold">Desserts</h1>
+      <h1 className="text-[2.6rem] font-bold min-[800px]:mx-8 min-[1150px]:mx-4 ">
+        Desserts
+      </h1>
       <article className="flex flex-col mt-8 gap-7 min-[600px]:flex-row min-[600px]:justify-center max-w-[900px] flex-wrap ">
         {productList.map((product) => {
           const cartItem = cartCount.find(
@@ -66,24 +80,21 @@ const ProductItems: React.FC = () => {
               key={product.name}
             >
               <img
-                src={imgSrc ? product.image.tablet : product.image.mobile}
+                src={product.image[imgSrc]}
                 alt={product.name}
                 className={`border-2 ${
                   isActive ? 'border-[#C73B0F] ' : ''
-                } rounded-xl transition-all duration-200 `}
+                } rounded-xl transition-all duration-200 hover:'border-[#C73B0F] '`}
               />
-              <span className="flex justify-center">
-                {' '}
+              <span className="flex justify-center ">
                 <span
                   className={` ${
                     isActive ? 'bg-[#C73B0F] px-4 ' : 'bg-[#fff]'
-                  }  w-[11rem] py-4 px-6 border-[#C2B2A3] border-2 rounded-full -translate-y-8 transition-all duration-200`}
+                  }  w-[11rem] py-4 px-5 hover:border-[#C73B0F] border-[#C2B2A3] border-2 cursor-pointer rounded-full -translate-y-8 transition-all duration-200`}
+                  onClick={() => handleClick(product.name, product.price)}
                 >
                   {!isActive ? (
-                    <span
-                      className="flex justify-center gap-3 cursor-pointer"
-                      onClick={() => handleClick(product.name, product.price)}
-                    >
+                    <span className="flex justify-center gap-3 ">
                       <img
                         src="/assets/images/icon-add-to-cart.svg"
                         alt="cart logo"
@@ -94,7 +105,7 @@ const ProductItems: React.FC = () => {
                       </h4>
                     </span>
                   ) : (
-                    <span className="flex items-center justify-between gap-3 -py-3">
+                    <span className="flex items-center justify-between gap-3 -my-1 min-[800px]:-mx-1">
                       <div
                         className="flex items-center justify-center border-2 border-[#fff] py-[.53rem] px-[.3rem] rounded-full cursor-pointer"
                         onClick={(e) => {

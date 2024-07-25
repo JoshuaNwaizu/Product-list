@@ -21,10 +21,6 @@ const Cart = () => {
     dispatch(openOrderItem());
   };
 
-  console.log(cartItem);
-  console.log(cartTotal);
-  console.log(cartSummary);
-
   const handleDelete = (name: string, price: number) => {
     dispatch(deleteItem({ name, price }));
   };
@@ -37,10 +33,10 @@ const Cart = () => {
         {cartItem.length > 0 ? (
           <>
             <div className="flex flex-col gap-2">
-              {cartItem.map((item, i) => (
+              {cartItem.map((item) => (
                 <>
                   <div
-                    key={i}
+                    key={item.name}
                     className="flex flex-row justify-between px-2 py-3"
                   >
                     <div className="flex flex-col justify-between gap-2">
@@ -108,7 +104,7 @@ const Cart = () => {
         {cartItem.length > 0 && (
           <Button
             text=" Confirm Order"
-            className="bg-[#C73B0F] p-[1rem] font-semibold text-[16px] text-[#fff] rounded-[2rem]"
+            className="bg-[#C73B0F] p-[1rem] font-semibold text-[16px] text-[#fff] rounded-[2rem] hover:bg-[#571e0d] transition-all duration-200"
             onClick={handleOpenNav}
           />
         )}
