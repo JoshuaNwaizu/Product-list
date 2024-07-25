@@ -105,35 +105,39 @@ const ProductItems: React.FC = () => {
                       </h4>
                     </span>
                   ) : (
-                    <span className="flex items-center justify-between gap-3 -my-1 min-[800px]:-mx-1">
+                    <span className="flex items-center justify-between gap-3 font-semibold -my-1 min-[800px]:-mx-1">
                       <div
-                        className="flex items-center justify-center border-2 border-[#fff] py-[.53rem] px-[.3rem] rounded-full cursor-pointer"
+                        className="flex items-center justify-center border-2 border-[#fff]  px-[.5rem] text-[16px] text-white rounded-full cursor-pointer"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleDecrement(product.name, product.price);
                         }}
                       >
-                        <img
+                        {/* <img
                           src="/assets/images/icon-decrement-quantity.svg"
                           alt="logo"
                           className="w-[10px]"
-                        />
+                        /> */}
+                        <p>-</p>
                       </div>
                       <p className="font-semibold text-[14px] text-[#fff]">
                         {quantity}
                       </p>
                       <div
-                        className="flex items-center   py-[.3rem] px-[.3rem] cursor-pointer "
+                        className="flex items-center justify-center  py-[.3rem] px-[.3rem] cursor-pointer "
                         onClick={(e) => {
                           e.stopPropagation();
                           handleIncrement(product.name, product.price);
                         }}
                       >
-                        <img
+                        {/* <img
                           src="/assets/images/icon-increment-quantity.svg"
                           alt="logo"
                           className="border-2 border-[#fff] h-[] p-1 rounded-full"
-                        />
+                        /> */}
+                        <p className="border-2 border-[#fff] px-[.4rem] flex items-center justify-center rounded-full text-white">
+                          +
+                        </p>
                       </div>
                     </span>
                   )}
