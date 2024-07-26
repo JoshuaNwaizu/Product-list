@@ -37,7 +37,7 @@ const ProductItems: React.FC = () => {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleClick = (name: string, price: number) => {
+  const handleAddItem = (name: string, price: number) => {
     dispatch(addCart({ name, price }));
     dispatch(activeItem({ name, price }));
   };
@@ -95,7 +95,7 @@ const ProductItems: React.FC = () => {
                   {!isActive ? (
                     <span
                       className="flex justify-center gap-3 "
-                      onClick={() => handleClick(product.name, product.price)}
+                      onClick={() => handleAddItem(product.name, product.price)}
                     >
                       <img
                         src="/assets/images/icon-add-to-cart.svg"
