@@ -71,7 +71,7 @@ const ProductItems: React.FC = () => {
           <a href="#cart">
             <img
               src="/assets/images/icon-add-to-cart.svg"
-              className="h-[30px]"
+              className="h-[25px]"
             />
           </a>
         </span>
