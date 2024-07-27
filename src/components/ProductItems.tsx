@@ -63,9 +63,18 @@ const ProductItems: React.FC = () => {
   }, []);
 
   return (
-    <section>
-      <h1 className="text-[2.6rem] font-bold min-[800px]:mx-8 min-[1150px]:mx-4 ">
-        Desserts
+    <section id="product-items">
+      <h1 className="text-[2.6rem] font-bold min-[800px]:mx-8 min-[1150px]:mx-4 max-[600px]:flex  max-[600px]:justify-between items-center">
+        <span>Desserts</span>
+
+        <span className=" min-[600px]:hidden">
+          <a href="#cart">
+            <img
+              src="/assets/images/icon-add-to-cart.svg"
+              className="h-[30px]"
+            />
+          </a>
+        </span>
       </h1>
       <article className="flex flex-col mt-8 gap-7 min-[600px]:flex-row min-[600px]:justify-center max-w-[900px] flex-wrap ">
         {productList.map((product) => {
