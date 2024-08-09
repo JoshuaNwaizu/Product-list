@@ -4,4 +4,4 @@ This template provides a minimal setup to get React working in Vite with HMR and
 
 Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/
+- [@vitejs/plugin-react](https://g
