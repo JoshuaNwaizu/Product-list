@@ -30,7 +30,7 @@ const Cart = () => {
       className="flex flex-col "
       id="cart"
     >
-      <section className="flex flex-col gap-6 bg-[#fff] py-8 px-5  rounded-2xl  min-[1100px]:w-[350px]  min-[1100px]:mt-[1.5rem] min-[1100px]:sticky min-[1100px]:top-[2rem] ">
+      <section className="flex flex-col gap-6 bg-[#fff] py-8 px-5  rounded-2xl  min-[1100px]:w-[350px]  min-[1100px]:mt-[1.5rem] min-[1100px]:sticky min-[1100px]:top-[2rem]">
         <h1 className="text-[#C73B0F] text-[1.5rem] font-bold">
           Your Cart ({cartTotal})
         </h1>
@@ -113,6 +113,7 @@ const Cart = () => {
           />
         )}
       </section>
+      {/* //this is just for testing */}
     </div>
   );
 };
